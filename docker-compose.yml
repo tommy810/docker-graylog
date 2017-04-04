@@ -1,0 +1,26 @@
+version: '3'
+services:
+  graylog:
+    image: graylog2/server
+    links:
+      - graylog_mongo:mongo
+      - graylog_elasticsearch:elasticsearch
+    volumes:
+      - ./volumes/graylog/data/journal:/usr/share/graylog/data/journal
+      - ./volumes/graylog/config:/usr/share/graylog/data/config
+    ports:
+      - "9000:9000"
+    env_file:
+      - graylog.env
+    depends_on:
+      - graylog_mongo
+      - graylog_elasticsearch
+  graylog_mongo:
+    image: mongo
+    volumes:
+      - ./volumes/graylog/data/mongo:/data/db
+  graylog_elasticsearch:
+    image: elasticsearch:2
+    volumes:
+      - ./volumes/graylog/data/elasticsearch:/usr/share/elasticsearch/data
+    command: "elasticsearch -Des.cluster.name='graylog'" 

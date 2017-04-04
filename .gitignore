@@ -1,0 +1,4 @@
+./volumes/graylog/data/elasticsearch/*
+./volumes/graylog/data/mongo/*
+./volumes/graylog/data/journal/*
+
